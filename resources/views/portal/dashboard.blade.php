@@ -1,29 +1,3 @@
-@php
-    $user = auth()->user();
-    $membership = $user->membership;
-    $cpdPoints = $user->getCpdPointsForYear(now()->year);
-    $cpdTarget = 40;
-    $cpdPercentage = min(100, ($cpdPoints / $cpdTarget) * 100);
-    $pendingInvoices = $user->invoices()->unpaid()->count();
-    $openTickets = $user->tickets()->open()->count();
-    $upcomingRegistrations = $user->eventRegistrations()
-        ->whereHas('event', fn($q) => $q->where('start_date', '>=', now()))
-        ->with('event')
-        ->take(3)
-        ->get();
-    $upcomingEventsCount = $user->eventRegistrations()
-        ->whereHas('event', fn($q) => $q->where('start_date', '>=', now()))
-        ->count();
-    $recentCpdActivities = $user->cpdActivities()->with('category')->latest()->take(5)->get();
-
-    $membershipExpiringSoon = false;
-    $membershipExpired = false;
-    if ($membership && $membership->expiry_date) {
-        $membershipExpired = $membership->expiry_date->isPast();
-        $membershipExpiringSoon = !$membershipExpired && $membership->expiry_date->diffInDays(now()) <= 30;
-    }
-@endphp
-
 <x-layouts.portal title="Dashboard">
     {{-- Welcome Header --}}
     <div class="mb-6">
@@ -236,32 +210,26 @@
             </div>
 
             @if($recentCpdActivities->isNotEmpty())
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-gray-100">
-                                <th class="pb-2 text-left font-medium text-gray-500">Activity</th>
-                                <th class="pb-2 text-left font-medium text-gray-500">Category</th>
-                                <th class="pb-2 text-center font-medium text-gray-500">Points</th>
-                                <th class="pb-2 text-center font-medium text-gray-500">Status</th>
-                                <th class="pb-2 text-right font-medium text-gray-500">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-50">
-                            @foreach($recentCpdActivities as $activity)
-                                <tr>
-                                    <td class="py-2.5 pr-4 font-medium text-gray-900">{{ Str::limit($activity->title ?? $activity->description ?? '-', 40) }}</td>
-                                    <td class="py-2.5 pr-4 text-gray-500">{{ $activity->category?->name ?? '-' }}</td>
-                                    <td class="py-2.5 text-center font-semibold text-gray-900">{{ $activity->points }}</td>
-                                    <td class="py-2.5 text-center">
-                                        <x-ui.badge :color="$activity->status->color()" size="xs">{{ $activity->status->label() }}</x-ui.badge>
-                                    </td>
-                                    <td class="py-2.5 text-right text-gray-500">{{ $activity->created_at->format('M j, Y') }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <x-table.table>
+                    <x-slot:head>
+                        <x-table.heading>Activity</x-table.heading>
+                        <x-table.heading>Category</x-table.heading>
+                        <x-table.heading>Points</x-table.heading>
+                        <x-table.heading>Status</x-table.heading>
+                        <x-table.heading>Date</x-table.heading>
+                    </x-slot:head>
+                    @foreach($recentCpdActivities as $activity)
+                        <tr>
+                            <x-table.cell><span class="font-medium text-gray-900">{{ Str::limit($activity->title ?? $activity->description ?? '-', 40) }}</span></x-table.cell>
+                            <x-table.cell>{{ $activity->category?->name ?? '-' }}</x-table.cell>
+                            <x-table.cell><span class="font-semibold text-gray-900">{{ $activity->points }}</span></x-table.cell>
+                            <x-table.cell>
+                                <x-ui.badge :color="$activity->status->color()" size="xs">{{ $activity->status->label() }}</x-ui.badge>
+                            </x-table.cell>
+                            <x-table.cell>{{ $activity->created_at->format('M j, Y') }}</x-table.cell>
+                        </tr>
+                    @endforeach
+                </x-table.table>
             @else
                 <x-ui.empty-state
                     title="No CPD activities yet"

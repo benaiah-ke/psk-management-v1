@@ -11,7 +11,8 @@ class Branch extends Model
     use HasSlug;
 
     protected $fillable = [
-        'name', 'slug', 'county', 'region', 'description',
+        'name', 'slug', 'code', 'county', 'region',
+        'description', 'address', 'phone', 'email',
         'cost_center_id', 'is_active',
     ];
 
@@ -33,7 +34,7 @@ class Branch extends Model
     public function members()
     {
         return $this->belongsToMany(User::class, 'branch_members')
-            ->withPivot('role', 'joined_at', 'left_at')
+            ->withPivot('role', 'joined_at', 'left_at', 'is_active')
             ->withTimestamps();
     }
 

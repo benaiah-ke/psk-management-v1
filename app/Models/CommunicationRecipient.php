@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class CommunicationRecipient extends Model
 {
     protected $fillable = [
-        'communication_id', 'user_id', 'email', 'phone',
-        'status', 'sent_at', 'delivered_at', 'failed_at', 'failure_reason',
+        'communication_id', 'user_id', 'status',
+        'sent_at', 'delivered_at', 'opened_at', 'error_message',
     ];
 
     protected function casts(): array
@@ -16,7 +16,7 @@ class CommunicationRecipient extends Model
         return [
             'sent_at' => 'datetime',
             'delivered_at' => 'datetime',
-            'failed_at' => 'datetime',
+            'opened_at' => 'datetime',
         ];
     }
 

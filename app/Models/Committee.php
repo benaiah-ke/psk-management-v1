@@ -11,13 +11,18 @@ class Committee extends Model
     use HasSlug;
 
     protected $fillable = [
-        'name', 'slug', 'type', 'description', 'parent_id',
+        'name', 'slug', 'code', 'type', 'parent_id', 'description',
+        'mandate', 'established_date', 'dissolution_date',
         'cost_center_id', 'is_active',
     ];
 
     protected function casts(): array
     {
-        return ['is_active' => 'boolean'];
+        return [
+            'is_active' => 'boolean',
+            'established_date' => 'date',
+            'dissolution_date' => 'date',
+        ];
     }
 
     public function getSlugOptions(): SlugOptions
@@ -43,7 +48,7 @@ class Committee extends Model
     public function members()
     {
         return $this->belongsToMany(User::class, 'committee_members')
-            ->withPivot('role', 'joined_at', 'left_at', 'term_starts_at', 'term_ends_at')
+            ->withPivot('role', 'appointed_at', 'term_ends_at', 'is_active')
             ->withTimestamps();
     }
 

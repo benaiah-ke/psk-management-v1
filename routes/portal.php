@@ -8,7 +8,7 @@ Route::middleware(['auth', TrackLastLogin::class])
     ->name('portal.')
     ->group(function () {
         // Dashboard
-        Route::get('dashboard', fn() => view('portal.dashboard'))->name('dashboard');
+        Route::get('dashboard', \App\Http\Controllers\Portal\DashboardController::class)->name('dashboard');
 
         // Profile
         Route::get('profile', [\App\Http\Controllers\Portal\ProfileController::class, 'edit'])->name('profile');

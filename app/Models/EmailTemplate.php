@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmailTemplate extends Model
 {
-    protected $fillable = ['name', 'slug', 'subject', 'body', 'category', 'merge_fields', 'is_active'];
+    protected $fillable = ['name', 'slug', 'subject', 'body', 'category', 'variables', 'is_active'];
 
     protected function casts(): array
     {
-        return ['merge_fields' => 'array', 'is_active' => 'boolean'];
+        return ['variables' => 'array', 'is_active' => 'boolean'];
     }
 
     public function render(array $data = []): string

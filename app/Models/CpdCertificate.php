@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class CpdCertificate extends Model
 {
     protected $fillable = [
-        'user_id', 'year', 'total_points', 'certificate_number',
-        'file_path', 'issued_at',
+        'user_id', 'certificate_number', 'period_year',
+        'total_points', 'required_points', 'file_path', 'issued_date',
     ];
 
     protected function casts(): array
     {
         return [
-            'year' => 'integer',
-            'total_points' => 'decimal:2',
-            'issued_at' => 'datetime',
+            'period_year' => 'integer',
+            'total_points' => 'integer',
+            'required_points' => 'integer',
+            'issued_date' => 'date',
         ];
     }
 

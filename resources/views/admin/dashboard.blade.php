@@ -5,7 +5,7 @@
     </div>
 
     {{-- Stat Cards --}}
-    <div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+    <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         <x-ui.stat-card label="Total Members" :value="$totalMembers ?? 0" color="primary">
             <x-slot:icon>
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -44,7 +44,7 @@
     </div>
 
     {{-- Charts Row --}}
-    <div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <div class="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         {{-- Members by Tier Doughnut Chart --}}
         <x-ui.card>
             <h3 class="mb-4 text-lg font-semibold text-gray-900">Members by Tier</h3>
@@ -172,7 +172,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             // Chart color palette
-            const colors = ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#F44336', '#00BCD4'];
+            const colors = ['#3f51b5', '#4caf50', '#7986cb', '#43a047', '#303f9f', '#66bb6a'];
 
             // Members by Tier - Doughnut Chart
             const tierData = @json($membersByTier);
@@ -216,8 +216,8 @@
                     datasets: [{
                         label: 'Revenue (KES)',
                         data: revenueData.map(r => r.amount),
-                        backgroundColor: '#1a237e',
-                        borderColor: '#1a237e',
+                        backgroundColor: '#3949ab',
+                        borderColor: '#3949ab',
                         borderWidth: 1,
                         borderRadius: 6,
                         barPercentage: 0.6,

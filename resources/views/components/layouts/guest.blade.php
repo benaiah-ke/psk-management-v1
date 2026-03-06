@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="{{ config('psk.organization.name') }} — Membership management, events, CPD tracking, and more.">
-    <meta name="theme-color" content="#1d4ed8">
+    <meta name="theme-color" content="#3f51b5">
     <meta property="og:title" content="{{ config('app.name') }}">
     <meta property="og:description" content="Association management platform for the {{ config('psk.organization.name') }}.">
     <meta property="og:type" content="website">
@@ -14,6 +14,9 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-gray-50 font-sans antialiased">

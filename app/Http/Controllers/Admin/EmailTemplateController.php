@@ -41,7 +41,7 @@ class EmailTemplateController extends Controller
             'subject' => 'required|string|max:255',
             'body' => 'required|string',
             'category' => 'nullable|string|max:50',
-            'merge_fields' => 'nullable|array',
+            'variables' => 'nullable|array',
             'is_active' => 'boolean',
         ]);
 
@@ -69,7 +69,7 @@ class EmailTemplateController extends Controller
             'subject' => 'required|string|max:255',
             'body' => 'required|string',
             'category' => 'nullable|string|max:50',
-            'merge_fields' => 'nullable|array',
+            'variables' => 'nullable|array',
             'is_active' => 'boolean',
         ]);
 

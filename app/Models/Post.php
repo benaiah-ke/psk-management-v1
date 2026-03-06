@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\Enums\PostStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 class Post extends Model
 {
-    use HasSlug;
+    use HasSlug, SoftDeletes;
 
     protected $fillable = [
         'user_id', 'title', 'slug', 'body', 'type', 'status',

@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class EventSurveyResponse extends Model
 {
-    protected $fillable = ['event_survey_id', 'user_id', 'answers'];
+    protected $fillable = ['event_survey_id', 'user_id', 'responses', 'submitted_at'];
 
     protected function casts(): array
     {
-        return ['answers' => 'array'];
+        return [
+            'responses' => 'array',
+            'submitted_at' => 'datetime',
+        ];
     }
 
     public function survey()

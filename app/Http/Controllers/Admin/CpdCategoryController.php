@@ -18,12 +18,12 @@ class CpdCategoryController extends Controller
 
         $categories = $query->orderBy('name')->paginate(15)->withQueryString();
 
-        return view('admin.cpd-categories.index', compact('categories'));
+        return view('admin.cpd.categories.index', compact('categories'));
     }
 
     public function create()
     {
-        return view('admin.cpd-categories.create');
+        return view('admin.cpd.categories.create');
     }
 
     public function store(Request $request)
@@ -37,7 +37,7 @@ class CpdCategoryController extends Controller
 
         CpdCategory::create($validated);
 
-        return redirect()->route('admin.cpd-categories.index')
+        return redirect()->route('admin.cpd.categories.index')
             ->with('success', 'CPD category created successfully.');
     }
 
@@ -45,12 +45,12 @@ class CpdCategoryController extends Controller
     {
         $cpdCategory->loadCount('activities');
 
-        return view('admin.cpd-categories.show', compact('cpdCategory'));
+        return view('admin.cpd.categories.show', compact('cpdCategory'));
     }
 
     public function edit(CpdCategory $cpdCategory)
     {
-        return view('admin.cpd-categories.edit', compact('cpdCategory'));
+        return view('admin.cpd.categories.edit', compact('cpdCategory'));
     }
 
     public function update(Request $request, CpdCategory $cpdCategory)
@@ -64,7 +64,7 @@ class CpdCategoryController extends Controller
 
         $cpdCategory->update($validated);
 
-        return redirect()->route('admin.cpd-categories.show', $cpdCategory)
+        return redirect()->route('admin.cpd.categories.show', $cpdCategory)
             ->with('success', 'CPD category updated successfully.');
     }
 
@@ -72,7 +72,7 @@ class CpdCategoryController extends Controller
     {
         $cpdCategory->delete();
 
-        return redirect()->route('admin.cpd-categories.index')
+        return redirect()->route('admin.cpd.categories.index')
             ->with('success', 'CPD category deleted successfully.');
     }
 }

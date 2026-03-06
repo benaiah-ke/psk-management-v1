@@ -8,18 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Communication extends Model
 {
     protected $fillable = [
-        'sent_by', 'type', 'subject', 'body', 'recipient_count',
-        'sent_count', 'failed_count', 'sent_at',
+        'type', 'channel', 'subject', 'body', 'status',
+        'sent_by', 'scheduled_at', 'sent_at', 'error_message', 'metadata',
     ];
 
     protected function casts(): array
     {
         return [
             'type' => CommunicationType::class,
-            'recipient_count' => 'integer',
-            'sent_count' => 'integer',
-            'failed_count' => 'integer',
+            'scheduled_at' => 'datetime',
             'sent_at' => 'datetime',
+            'metadata' => 'array',
         ];
     }
 
