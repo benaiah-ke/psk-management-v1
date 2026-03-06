@@ -24,7 +24,7 @@ return new class extends Migration
 
         Schema::create('membership_application_documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('membership_application_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('membership_application_id')->constrained('membership_applications', 'id', 'app_doc_application_id_foreign')->cascadeOnDelete();
             $table->string('document_type', 100);
             $table->string('file_path', 500);
             $table->string('original_filename', 255);
