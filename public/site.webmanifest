@@ -1,0 +1,16 @@
+{
+    "name": "PSK Management",
+    "short_name": "PSK",
+    "description": "Association management platform for the Pharmaceutical Society of Kenya",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#f9fafb",
+    "theme_color": "#1d4ed8",
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" rx="40" fill="#1d4ed8"/>
+  <text x="90" y="105" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-weight="800" font-size="62" fill="#ffffff">PSK</text>
+  <rect x="38" y="120" width="104" height="6" rx="3" fill="#93c5fd"/>
+</svg>

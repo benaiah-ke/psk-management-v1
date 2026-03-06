@@ -1,5 +1,7 @@
 {
     "$schema": "https://www.schemastore.org/package.json",
+    "name": "psk-management",
+    "description": "Association management platform for the Pharmaceutical Society of Kenya",
     "private": true,
     "type": "module",
     "scripts": {

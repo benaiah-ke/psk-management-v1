@@ -1,9 +1,9 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "psk/management-platform",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "Association management platform for the Pharmaceutical Society of Kenya.",
+    "keywords": ["psk", "association", "membership", "pharmacy", "kenya"],
     "license": "MIT",
     "require": {
         "php": "^8.2",

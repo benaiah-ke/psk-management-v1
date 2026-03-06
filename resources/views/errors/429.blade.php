@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>429 - Too Many Requests</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
     <div class="text-center">
