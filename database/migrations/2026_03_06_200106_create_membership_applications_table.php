@@ -8,6 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // Clean up orphaned tables from previously failed migration
+        Schema::dropIfExists('membership_application_documents');
+        Schema::dropIfExists('membership_applications');
+
         Schema::create('membership_applications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
