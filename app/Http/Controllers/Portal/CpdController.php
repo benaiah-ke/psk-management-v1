@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Portal;
 
-use App\Http\Controllers\Controller;
 use App\Enums\CpdActivitySource;
+use App\Enums\CpdActivityStatus;
+use App\Http\Controllers\Controller;
 use App\Models\CpdActivity;
 use App\Models\CpdCategory;
 use App\Models\CpdCertificate;
@@ -20,9 +21,9 @@ class CpdController extends Controller
             ->latest('activity_date')
             ->get();
 
-        $totalPoints = $activities->where('is_verified', true)->sum('points');
+        $totalPoints = $activities->where('status', CpdActivityStatus::Approved)->sum('points');
         $requiredPoints = config('psk.cpd.annual_requirement', 40);
-        $certificates = CpdCertificate::where('user_id', auth()->id())->latest('year')->get();
+        $certificates = CpdCertificate::where('user_id', auth()->id())->latest('period_year')->get();
 
         return view('portal.cpd.index', compact('activities', 'totalPoints', 'requiredPoints', 'certificates', 'currentYear'));
     }
@@ -57,8 +58,9 @@ class CpdController extends Controller
             'points' => $validated['points'],
             'activity_date' => $validated['activity_date'],
             'source' => CpdActivitySource::Manual,
-            'evidence_path' => $evidencePath,
-            'is_verified' => false,
+            'status' => CpdActivityStatus::Pending,
+            'evidence_file_path' => $evidencePath,
+            'period_year' => now()->year,
         ]);
 
         return redirect()->route('portal.cpd.index')->with('success', 'CPD activity logged successfully. It will be reviewed shortly.');

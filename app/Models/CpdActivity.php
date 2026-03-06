@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CpdActivitySource;
+use App\Enums\CpdActivityStatus;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -13,18 +14,19 @@ class CpdActivity extends Model
 
     protected $fillable = [
         'user_id', 'cpd_category_id', 'event_id', 'title', 'description',
-        'points', 'activity_date', 'source', 'evidence_path', 'is_verified',
-        'verified_by', 'verified_at',
+        'points', 'activity_date', 'source', 'status', 'evidence_file_path',
+        'approved_by', 'approved_at', 'rejection_reason', 'period_year',
     ];
 
     protected function casts(): array
     {
         return [
             'source' => CpdActivitySource::class,
-            'points' => 'decimal:2',
+            'status' => CpdActivityStatus::class,
+            'points' => 'integer',
             'activity_date' => 'date',
-            'is_verified' => 'boolean',
-            'verified_at' => 'datetime',
+            'approved_at' => 'datetime',
+            'period_year' => 'integer',
         ];
     }
 
@@ -48,14 +50,14 @@ class CpdActivity extends Model
         return $this->belongsTo(Event::class);
     }
 
-    public function verifier()
+    public function approver()
     {
-        return $this->belongsTo(User::class, 'verified_by');
+        return $this->belongsTo(User::class, 'approved_by');
     }
 
-    public function scopeVerified($query)
+    public function scopeApproved($query)
     {
-        return $query->where('is_verified', true);
+        return $query->where('status', CpdActivityStatus::Approved);
     }
 
     public function scopeForYear($query, int $year)

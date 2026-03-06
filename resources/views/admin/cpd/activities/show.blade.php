@@ -12,16 +12,16 @@
             <p class="text-sm text-gray-500">Logged on {{ $activity->created_at->format('d M Y \a\t H:i') }}</p>
         </div>
         <div class="flex gap-2">
-            @unless($activity->is_verified)
+            @if($activity->status === \App\Enums\CpdActivityStatus::Pending)
                 <form method="POST" action="{{ route('admin.cpd.activities.verify', $activity) }}">
                     @csrf
                     @method('PATCH')
-                    <x-ui.button type="submit" variant="success" onclick="return confirm('Verify this CPD activity?')">
+                    <x-ui.button type="submit" variant="success" onclick="return confirm('Approve this CPD activity?')">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        Verify Activity
+                        Approve Activity
                     </x-ui.button>
                 </form>
-            @endunless
+            @endif
             <x-ui.button href="{{ route('admin.cpd.activities.index') }}" variant="secondary">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Back to List
@@ -54,17 +54,13 @@
                     <div>
                         <dt class="text-xs font-medium uppercase text-gray-500">Status</dt>
                         <dd class="mt-1">
-                            @if($activity->is_verified)
-                                <x-ui.badge color="green">Verified</x-ui.badge>
-                            @else
-                                <x-ui.badge color="yellow">Pending Verification</x-ui.badge>
-                            @endif
+                            <x-ui.badge :color="$activity->status->color()">{{ $activity->status->label() }}</x-ui.badge>
                         </dd>
                     </div>
-                    @if($activity->is_verified && $activity->verified_at)
+                    @if($activity->status === \App\Enums\CpdActivityStatus::Approved && $activity->approved_at)
                         <div>
-                            <dt class="text-xs font-medium uppercase text-gray-500">Verified At</dt>
-                            <dd class="mt-0.5 text-sm text-gray-900">{{ $activity->verified_at->format('d M Y H:i') }}</dd>
+                            <dt class="text-xs font-medium uppercase text-gray-500">Approved At</dt>
+                            <dd class="mt-0.5 text-sm text-gray-900">{{ $activity->approved_at->format('d M Y H:i') }}</dd>
                         </div>
                     @endif
                     @if($activity->description)
@@ -77,7 +73,7 @@
             </x-ui.card>
 
             {{-- Evidence --}}
-            @if($activity->evidence_path)
+            @if($activity->evidence_file_path)
                 <x-ui.card class="mt-6">
                     <h3 class="mb-4 text-lg font-semibold text-gray-900">Evidence</h3>
                     <div class="flex items-center gap-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
@@ -85,10 +81,10 @@
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-gray-900">{{ basename($activity->evidence_path) }}</p>
+                            <p class="text-sm font-medium text-gray-900">{{ basename($activity->evidence_file_path) }}</p>
                             <p class="text-xs text-gray-500">Uploaded evidence file</p>
                         </div>
-                        <x-ui.button href="{{ Storage::url($activity->evidence_path) }}" variant="secondary" size="sm" target="_blank">
+                        <x-ui.button href="{{ Storage::url($activity->evidence_file_path) }}" variant="secondary" size="sm" target="_blank">
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             Download
                         </x-ui.button>

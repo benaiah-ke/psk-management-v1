@@ -14,7 +14,7 @@ class CpdActivitiesExport implements FromQuery, WithHeadings, WithMapping, Shoul
 {
     public function query()
     {
-        return CpdActivity::query()->with(['user', 'category', 'verifier']);
+        return CpdActivity::query()->with(['user', 'category', 'approver']);
     }
 
     public function headings(): array
@@ -27,8 +27,8 @@ class CpdActivitiesExport implements FromQuery, WithHeadings, WithMapping, Shoul
             'Source',
             'Status',
             'Activity Date',
-            'Verified By',
-            'Verified At',
+            'Approved By',
+            'Approved At',
         ];
     }
 
@@ -38,12 +38,12 @@ class CpdActivitiesExport implements FromQuery, WithHeadings, WithMapping, Shoul
             $activity->user?->full_name,
             $activity->category?->name,
             $activity->title,
-            number_format((float) $activity->points, 2),
+            $activity->points,
             $activity->source?->label(),
-            $activity->is_verified ? 'Verified' : 'Pending',
+            $activity->status?->label() ?? 'Pending',
             $activity->activity_date?->format('Y-m-d'),
-            $activity->verifier?->full_name,
-            $activity->verified_at?->format('Y-m-d H:i:s'),
+            $activity->approver?->full_name,
+            $activity->approved_at?->format('Y-m-d H:i:s'),
         ];
     }
 

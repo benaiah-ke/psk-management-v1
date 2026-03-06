@@ -48,13 +48,13 @@
             </x-slot:icon>
         </x-ui.stat-card>
 
-        <x-ui.stat-card label="Verified Points" :value="$activities->where('is_verified', true)->sum('points')" color="green">
+        <x-ui.stat-card label="Approved Points" :value="$activities->where('status', \App\Enums\CpdActivityStatus::Approved)->sum('points')" color="green">
             <x-slot:icon>
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             </x-slot:icon>
         </x-ui.stat-card>
 
-        <x-ui.stat-card label="Pending Points" :value="$activities->where('is_verified', false)->sum('points')" color="yellow">
+        <x-ui.stat-card label="Pending Points" :value="$activities->where('status', \App\Enums\CpdActivityStatus::Pending)->sum('points')" color="yellow">
             <x-slot:icon>
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </x-slot:icon>
@@ -88,11 +88,7 @@
                         </x-table.cell>
                         <x-table.cell>{{ $activity->activity_date->format('d M Y') }}</x-table.cell>
                         <x-table.cell>
-                            @if($activity->is_verified)
-                                <x-ui.badge color="green">Verified</x-ui.badge>
-                            @else
-                                <x-ui.badge color="yellow">Pending</x-ui.badge>
-                            @endif
+                            <x-ui.badge :color="$activity->status->color()">{{ $activity->status->label() }}</x-ui.badge>
                         </x-table.cell>
                     </tr>
                 @endforeach

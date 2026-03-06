@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CpdActivityStatus;
 use App\Http\Controllers\Controller;
 use App\Models\CpdActivity;
 use App\Models\CpdCategory;
@@ -24,8 +25,8 @@ class CpdActivityController extends Controller
             });
         }
 
-        if ($request->filled('verified')) {
-            $query->where('is_verified', $request->boolean('verified'));
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
         if ($request->filled('category')) {
@@ -45,22 +46,22 @@ class CpdActivityController extends Controller
         return view('admin.cpd.activities.index', compact('activities', 'categories', 'years'));
     }
 
-    public function show(CpdActivity $cpdActivity)
+    public function show(CpdActivity $activity)
     {
-        $cpdActivity->load(['user', 'category', 'event', 'verifier']);
+        $activity->load(['user', 'category', 'event', 'approver']);
 
-        return view('admin.cpd.activities.show', compact('cpdActivity'));
+        return view('admin.cpd.activities.show', compact('activity'));
     }
 
-    public function verify(Request $request, CpdActivity $cpdActivity)
+    public function verify(Request $request, CpdActivity $activity)
     {
-        $cpdActivity->update([
-            'is_verified' => true,
-            'verified_by' => auth()->id(),
-            'verified_at' => now(),
+        $activity->update([
+            'status' => CpdActivityStatus::Approved,
+            'approved_by' => auth()->id(),
+            'approved_at' => now(),
         ]);
 
-        return redirect()->route('admin.cpd.activities.show', $cpdActivity)
-            ->with('success', 'CPD activity verified successfully.');
+        return redirect()->route('admin.cpd.activities.show', $activity)
+            ->with('success', 'CPD activity approved successfully.');
     }
 }
