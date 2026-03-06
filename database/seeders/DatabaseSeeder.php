@@ -29,5 +29,8 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
         $admin->assignRole('Super Admin');
+
+        // Seed demo data
+        $this->call(DemoDataSeeder::class);
     }
 }
