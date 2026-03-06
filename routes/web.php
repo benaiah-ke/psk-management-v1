@@ -17,6 +17,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// Demo guide
+Route::view('you-know-peter', 'you-know-peter');
+
 // Auth routes
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
